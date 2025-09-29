@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 function Login() {
   const navigate = useNavigate();
   return (
@@ -7,21 +7,9 @@ function Login() {
       <div>ここにログインフォームを配置</div>
       <button
         className="bg-blue-500 text-white p-2 mr-2"
-        onClick={() => navigate("/")}
+        onClick={() => navigate('/')}
       >
         Homeページ
-      </button>
-      <button
-        className="bg-purple-500 text-white p-2 mr-2"
-        onClick={() => navigate("/chats")}
-      >
-        Chatsページ
-      </button>
-      <button
-        className="bg-orange-500 text-white p-2 mr-2"
-        onClick={() => navigate("/chat")}
-      >
-        Chatページ
       </button>
     </div>
   );

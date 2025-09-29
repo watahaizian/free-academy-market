@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 function Chat() {
   const navigate = useNavigate();
@@ -8,19 +8,14 @@ function Chat() {
       <div>ここにチャットの内容を配置</div>
       <button
         className="bg-blue-500 text-white p-2 mr-2"
-        onClick={() => navigate("/")}
+        onClick={() => navigate('/')}
       >
         Homeページ
       </button>
-      <button
-        className="bg-green-500 text-white p-2 mr-2"
-        onClick={() => navigate("/login")}
-      >
-        Loginページ
-      </button>
+
       <button
         className="bg-purple-500 text-white p-2 mr-2"
-        onClick={() => navigate("/chats")}
+        onClick={() => navigate('/chats')}
       >
         Chatsページ
       </button>
