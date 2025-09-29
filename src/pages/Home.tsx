@@ -32,6 +32,12 @@ function Home() {
         >
           Chatページ
         </button>
+        <button
+          className="bg-red-500 text-white p-2 mr-2"
+          onClick={() => navigate('/soldItem')}
+        >
+          出品一覧ページ
+        </button>
       </div>
     </div>
   );
