@@ -13,6 +13,12 @@ function Chat() {
         Homeページ
       </button>
       <button
+        className="bg-green-500 text-white p-2 mr-2"
+        onClick={() => navigate("/login")}
+      >
+        Loginページ
+      </button>
+      <button
         className="bg-purple-500 text-white p-2 mr-2"
         onClick={() => navigate("/chats")}
       >

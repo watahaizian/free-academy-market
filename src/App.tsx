@@ -1,9 +1,10 @@
-import { Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import Chats from "./pages/Chats";
-import Login from "./pages/Login";
-import Item from "./pages/Item";
-import Chat from "./pages/Chat";
+import { Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import Chats from './pages/Chats';
+import Login from './pages/Login';
+import Item from './pages/Item';
+import Chat from './pages/Chat';
+
 function App() {
   return (
     <>

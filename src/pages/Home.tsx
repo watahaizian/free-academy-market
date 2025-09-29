@@ -1,5 +1,5 @@
-import { useNavigate } from "react-router-dom";
-import Card from "../components/Card";
+import { useNavigate } from 'react-router-dom';
+import Card from '../components/Card';
 function Home() {
   const navigate = useNavigate();
 
@@ -16,15 +16,21 @@ function Home() {
       <div className="mb-4">
         <button
           className="bg-green-500 text-white p-2 mr-2"
-          onClick={() => navigate("/login")}
+          onClick={() => navigate('/login')}
         >
           Loginページ
         </button>
         <button
           className="bg-purple-500 text-white p-2 mr-2"
-          onClick={() => navigate("/chats")}
+          onClick={() => navigate('/chats')}
         >
           Chatsページ
+        </button>
+        <button
+          className="bg-orange-500 text-white p-2 mr-2"
+          onClick={() => navigate('/chat')}
+        >
+          Chatページ
         </button>
       </div>
     </div>
