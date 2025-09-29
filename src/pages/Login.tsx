@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
-
+        
 function Login() {
   const navigate = useNavigate();
 
@@ -94,21 +94,9 @@ function Login() {
 
       <button
         className="bg-blue-500 text-white p-2 mr-2"
-        onClick={() => navigate("/")}
+        onClick={() => navigate('/')}
       >
         Homeページ
-      </button>
-      <button
-        className="bg-purple-500 text-white p-2 mr-2"
-        onClick={() => navigate("/chats")}
-      >
-        Chatsページ
-      </button>
-      <button
-        className="bg-orange-500 text-white p-2 mr-2"
-        onClick={() => navigate("/chat")}
-      >
-        Chatページ
       </button>
     </div>
   );
