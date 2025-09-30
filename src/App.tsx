@@ -5,10 +5,12 @@ import Login from './pages/Login';
 import Item from './pages/Item';
 import Chat from './pages/Chat';
 import SoldItem from './pages/SoldItem';
+import Header from './components/Header';
 
 function App() {
   return (
     <>
+      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/chats" element={<Chats />} />
