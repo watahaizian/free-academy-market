@@ -34,10 +34,15 @@ export default function Header() {
   }, []);
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
-    setUser(null);
-    setMenuOpen(false);
-    navigate('/login');
+    const { error } = await supabase.auth.signOut();
+    if (!error) {
+      setUser(null);
+      setMenuOpen(false);
+      navigate('/login');
+    } else {
+      // Optionally, display an error message or log the error
+      console.error('Sign out failed:', error.message);
+    }
   };
 
   return (
