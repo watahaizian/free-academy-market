@@ -11,7 +11,16 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => setUser(data.user ?? null));
+    const fetchUser = async () => {
+      try {
+        const { data } = await supabase.auth.getUser();
+        setUser(data.user ?? null);
+      } catch (error) {
+        // Optionally log the error or show a notification
+        setUser(null);
+      }
+    };
+    fetchUser();
 
     const {
       data: { subscription },
