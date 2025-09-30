@@ -17,6 +17,9 @@ function Login() {
     e.preventDefault();
     const email = (document.getElementById("new-email") as HTMLInputElement).value;
     const password = (document.getElementById("new-password") as HTMLInputElement).value;
+    const name = (document.getElementById("new-name") as HTMLInputElement).value;
+    const schoolName = (document.getElementById("new-school-name") as HTMLInputElement).value;
+    const schoolGrade = (document.getElementById("new-school-grade") as HTMLInputElement).value;
 
     const { data, error } = await supabase.auth.signUp({
       email,
@@ -31,7 +34,23 @@ function Login() {
       alert("登録成功! 確認メールを送信しました。");
       toggleForm();
     }
+    const uuid = data.user?.id;
+    const { data: data2, error: error2 } = await supabase.from("profiles").insert({
+      id: uuid,
+      original_name: name,
+      school_name: schoolName,
+      grade: schoolGrade,
+      user_icon: "",
+    });
+    if (error2) {
+      alert("ユーザー登録エラー: " + error2.message);
+    } else {
+      alert("ユーザー登録成功!");
+    }
+    console.log(data2);
   }
+
+  
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,6 +60,8 @@ function Login() {
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
+      options: {
+      },
     });
 
     console.log(data);
@@ -84,6 +105,18 @@ function Login() {
           <div>
             <label htmlFor="new-password">パスワード</label>
             <input type="password" id="new-password" required />
+          </div>
+          <div>
+            <label htmlFor="new-name">名前</label>
+            <input type="text" id="new-name" required />
+          </div>
+          <div>
+            <label htmlFor="new-school-name">学校名</label>
+            <input type="text" id="new-school-name" required />
+          </div>
+          <div>
+            <label htmlFor="new-school-grade">学年</label>
+            <input type="text" id="new-school-grade" required />
           </div>
           <button type="submit">新規登録</button>
         </form>
