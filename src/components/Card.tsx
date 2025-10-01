@@ -1,6 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 
-function Card({ item }: { item: any }) {
+type Item = {
+  item_name: string;
+  // 必要に応じて他のプロパティも追加してください
+};
+
+function Card({ item }: { item: Item }) {
   const navigate = useNavigate();
 
   return (
