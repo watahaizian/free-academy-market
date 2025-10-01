@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
+import Layout from './components/Layout';
 import Home from './pages/Home';
 import Chats from './pages/Chats';
 import Login from './pages/Login';
@@ -7,15 +8,15 @@ import Chat from './pages/Chat';
 
 function App() {
   return (
-    <>
-      <Routes>
-        <Route path="/" element={<Home />} />
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Home />} />
         <Route path="/chats" element={<Chats />} />
         <Route path="/login" element={<Login />} />
         <Route path="/item" element={<Item />} />
         <Route path="/chat" element={<Chat />} />
-      </Routes>
-    </>
+      </Route>
+    </Routes>
   );
 }
 
