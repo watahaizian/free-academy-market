@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
+import Layout from './components/Layout';
 import Home from './pages/Home';
 import Chats from './pages/Chats';
 import Login from './pages/Login';
