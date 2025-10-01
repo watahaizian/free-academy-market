@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 function Card() {
   const navigate = useNavigate();
@@ -7,7 +7,7 @@ function Card() {
       <h2 className="mb-2">Cardコンポーネント</h2>
       <button
         className="bg-gray-500 text-white p-1"
-        onClick={() => navigate("/item")}
+        onClick={() => navigate('/item')}
       >
         Itemページ
       </button>
