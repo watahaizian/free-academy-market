@@ -16,10 +16,14 @@ export default function Home() {
     { id: 10, title: "古典", price: 1100, image: "https://picsum.photos/200/250?random=10", isFavorite: false },
   ];
 
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [isFavorite, setIsFavorite] = useState<number[]>([]);
 
-  const handleHeartClick = () => {
-    setIsFavorite(!isFavorite);
+  const handleHeartClick = (id: number) => {
+    setIsFavorite((prevIds) => {
+      return prevIds.includes(id)
+        ? prevIds.filter((prevId) => prevId !== id)
+        : [...prevIds, id];
+    });
   };
 
   return (
@@ -30,7 +34,7 @@ export default function Home() {
       </div>
       <div className="flex overflow-x-auto space-x-4 py-4 snap-x snap-mandatory scrollbar-hide">
         {textbooks.map((book) =>
-          <div className="w-1/3 flex-shrink-0 snap-start">
+          <div key={book.id} className="w-1/3 flex-shrink-0 snap-start">
             <div className="relative">
               <img
                 src={book.image}
@@ -38,12 +42,12 @@ export default function Home() {
                 className="w-full h-32 object-cover shadow-md"
               />
               <button
-                onClick={handleHeartClick}
-                className="absolute top-56 right-0 z-10 p-1 rounded-full hover:bg-black/20 transition-colors"
-                aria-label={isFavorite ? "お気に入りから削除" : "お気に入りに追加"}
+                onClick={() => handleHeartClick(book.id)}
+                className="absolute bottom-2 right-2 z-10 p-1 rounded-full hover:bg-black/20 transition-colors"
+                aria-label={isFavorite.includes(book.id) ? "お気に入りから削除" : "お気に入りに追加"}
               >
                 <Heart
-                  className={`${isFavorite ? 'text-red-500 fill-red-500' : 'text-white'} transition-colors`}
+                  className={`${isFavorite.includes(book.id) ? 'text-red-500 fill-red-500' : 'text-white'} transition-colors`}
                 />
               </button>
             </div>
