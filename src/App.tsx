@@ -5,7 +5,7 @@ import Chats from './pages/Chats';
 import Login from './pages/Login';
 import Item from './pages/Item';
 import Chat from './pages/Chat';
-import SoldItem from './pages/SoldItem';
+import SellItems from './pages/SellItems';
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="item" element={<Item />} />
         <Route path="chat" element={<Chat />} />
-        <Route path="soldItem" element={<SoldItem />} />
+        <Route path="sellItems" element={<SellItems />} />
       </Route>
     </Routes>
   );
