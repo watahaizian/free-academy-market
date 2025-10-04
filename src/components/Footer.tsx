@@ -1,17 +1,18 @@
 import { Home, MessageCircle, Plus } from 'lucide-react';
 
-type FooterTabType = 'home' | 'soldItems' | 'chats';
+type FooterTabType = 'home' | 'sold-items' | 'chats';
+type tabPathType = '/' | '/sold-items' | '/chats';
 
 interface FooterProps {
   activeTab: FooterTabType;
-  onTabChange: (tab: FooterTabType) => void;
+  onTabChange: (tab: tabPathType) => void;
 }
 
 export default function Footer({ activeTab, onTabChange }: FooterProps) {
   const tabs = [
-    { id: 'home' as FooterTabType, label: 'ホーム', icon: Home },
-    { id: 'soldItems' as FooterTabType, label: '出品', icon: Plus },
-    { id: 'chats' as FooterTabType, label: 'チャット', icon: MessageCircle },
+    { id: 'home' as FooterTabType, label: 'ホーム', icon: Home, path: '/' },
+    { id: 'soldItems' as FooterTabType, label: '出品', icon: Plus, path: '/sold-items' },
+    { id: 'chats' as FooterTabType, label: 'チャット', icon: MessageCircle, path: '/chats' },
   ];
 
   return (
@@ -21,7 +22,7 @@ export default function Footer({ activeTab, onTabChange }: FooterProps) {
           {tabs.map((tab) => (
             <button
               key={tab.id}
-              onClick={() => onTabChange(tab.id)}
+              onClick={() => onTabChange(tab.path as tabPathType)}
               className={`flex flex-col items-center font-medium text-sm transition-colors ${
                 activeTab === tab.id
                   ? 'text-blue-500'
