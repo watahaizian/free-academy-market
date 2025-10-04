@@ -51,11 +51,24 @@ const Setup = () => {
     })();
   }, [navigate]);
 
+  const MAX_SIZE_MB = 50;
   const onPickIcon = (e: React.ChangeEvent<HTMLInputElement>) => {
     const f = e.target.files?.[0] ?? null;
-    setIconFile(f);
-    if (f) setIconPreview(URL.createObjectURL(f));
-    else setIconPreview(null);
+    if (f) {
+      const sizeMB = f.size / (1024 * 1024);
+      if (sizeMB > MAX_SIZE_MB) {
+        setErr(`画像サイズは ${MAX_SIZE_MB}MB 以下にしてください（現在 ${sizeMB.toFixed(1)}MB）`);
+        e.target.value = "";
+        setIconFile(null);
+        setIconPreview(null);
+        return;
+      }
+      setIconFile(f);
+      setIconPreview(URL.createObjectURL(f));
+    } else {
+      setIconFile(null);
+      setIconPreview(null);
+    }
   };
 
   const iconExt = useMemo(() => {
