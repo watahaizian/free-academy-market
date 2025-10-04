@@ -25,7 +25,7 @@ const t = setTimeout(async () => {
   const { data, error } = await supabase
   .from('items')
   .select('item_id, item_name')
-  .or(`item_name.ilike.%${q}%,item_detai.ilike.%${q}%`)
+  .or(`item_name.ilike.%${q}%,item_detail.ilike.%${q}%`)
   .limit(5);
 
   if (!error) setSuggestions(data || []);
@@ -36,8 +36,11 @@ return () => clearTimeout(t);
 
 const goSearch = (text: string) => {
   const q = text.trim();
-  if (!q) return;
   setOpen(false);
+  if (!q) { 
+    navigate("/");
+    return;
+  }
   navigate(`/?q=${encodeURIComponent(q)}`);
 };
 
@@ -67,10 +70,10 @@ const goSearch = (text: string) => {
       {open && suggestions.length > 0 && (
         <ul className="absolute z-10 bg-white border border-gray-300 rounded-md w-full">
           {suggestions.map((s) => (
-            <li key={s.item_id} 
+            <li 
+              key={s.item_id} 
               className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
-              onMouseDown={() => goSearch(s.item_name)}
-                
+              onMouseDown={() => goSearch(s.item_name)}  
             >
               {s.item_name}
             </li>
