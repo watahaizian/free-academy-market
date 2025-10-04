@@ -14,7 +14,7 @@ function App() {
         <Route index element={<Home />} />
         <Route path="chats" element={<Chats />} />
         <Route path="login" element={<Login />} />
-        <Route path="item" element={<Item />} />
+        <Route path="item/:item_id" element={<ItemPage />} />
         <Route path="chat" element={<Chat />} />
         <Route path="sellItems" element={<SellItems />} />
       </Route>
