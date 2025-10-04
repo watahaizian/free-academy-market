@@ -1,15 +1,12 @@
+import { useState } from 'react';
 import SearchBar from './SearchBar';
 import TabNavigation from './TabNavigation';
 import UserMenu from './UserMenu';
 import { useAuth } from '../../hooks/useAuth';
 
-interface HeaderProps {
-  activeTab?: 'home' | 'newItems' | 'category';
-  onTabChange?: (tab: 'home' | 'newItems' | 'category') => void;
-}
-
-export default function Header({ activeTab, onTabChange }: HeaderProps) {
+export default function Header() {
   const { user, login, logout } = useAuth();
+  const [activeTab, setActiveTab] = useState<'home' | 'new' | 'category'>('home');
 
   return (
     <header className="sticky top-0 bg-white shadow-sm z-10">
@@ -17,9 +14,7 @@ export default function Header({ activeTab, onTabChange }: HeaderProps) {
         <UserMenu user={user} onLogin={login} onLogout={logout} />
         <SearchBar />
       </div>
-      {activeTab && onTabChange && (
-        <TabNavigation activeTab={activeTab} onTabChange={onTabChange} />
-      )}
+      <TabNavigation activeTab={activeTab} onTabChange={setActiveTab} />
     </header>
   );
 }

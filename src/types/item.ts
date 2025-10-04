@@ -10,17 +10,4 @@ interface Item {
   item_price?: number;
 }
 
-interface CategoryItem {
-  id: number;
-  title: string;
-  image: string;
-  price: number;
-}
-
-interface CategoryList {
-  id: string;
-  name: string;
-  items: CategoryItem[];
-}
-
-export type { Item, CategoryList, CategoryItem };
+export type { Item };

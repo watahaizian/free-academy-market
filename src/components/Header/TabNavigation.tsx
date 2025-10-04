@@ -1,5 +1,4 @@
-
-type TabType = 'home' | 'newItems' | 'category';
+type TabType = 'home' | 'new' | 'category';
 
 interface TabNavigationProps {
   activeTab: TabType;
@@ -12,7 +11,7 @@ export default function TabNavigation({
 }: TabNavigationProps) {
   const tabs = [
     { id: 'home' as TabType, label: 'ホーム' },
-    { id: 'newItems' as TabType, label: '新着' },
+    { id: 'new' as TabType, label: '新着' },
     { id: 'category' as TabType, label: 'カテゴリ' },
   ];
 
