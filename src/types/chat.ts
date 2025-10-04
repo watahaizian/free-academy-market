@@ -1,5 +1,5 @@
 interface Chat {
-  chat_id: string;
+  chat_id: number;
   item_id: number;
   seller_user_id: string;
   buyer_user_id: string;
