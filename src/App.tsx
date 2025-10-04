@@ -1,11 +1,11 @@
-import { Routes, Route } from "react-router-dom";
-import Layout from "./components/Layout";
-import Home from "./pages/Home";
-import Chats from "./pages/Chats";
-import Login from "./pages/Login";
-import ItemPage from "./pages/Item";
-import Chat from "./pages/Chat";
-import SoldItem from "./pages/SoldItem";
+import { Routes, Route } from 'react-router-dom';
+import Layout from './components/Layout';
+import Home from './pages/Home';
+import Chats from './pages/Chats';
+import Login from './pages/Login';
+import Item from './pages/Item';
+import Chat from './pages/Chat';
+import SellItems from './pages/SellItems';
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="item/:item_id" element={<ItemPage />} />
         <Route path="chat" element={<Chat />} />
-        <Route path="soldItem" element={<SoldItem />} />
+        <Route path="sellItems" element={<SellItems />} />
       </Route>
     </Routes>
   );
