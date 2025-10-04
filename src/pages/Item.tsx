@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import type { Item } from "../types/item";
 import { useParams } from "react-router-dom";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "../lib/supabase";
 
 function ItemPage() {
@@ -9,20 +9,19 @@ function ItemPage() {
   const { item_id } = useParams();
   const [item, setItem] = useState<Item | null>(null);
 
-  const fetchItem = useCallback(async () => {
-    const { data, error } = await supabase
-      .from("items")
-      .select("*")
-      .eq("item_id", item_id);
-    setItem(data?.[0] || null);
-    if (error) {
-      alert("アイテムの取得に失敗しました" + error.message);
-    }
-  }, [item_id]);
-
   useEffect(() => {
+    const fetchItem = async () => {
+      const { data, error } = await supabase
+        .from("items")
+        .select("*")
+        .eq("item_id", item_id);
+      setItem(data?.[0] || null);
+      if (error) {
+        alert("アイテムの取得に失敗しました" + error.message);
+      }
+    };
     fetchItem();
-  }, [fetchItem]);
+  }, [item_id]);
 
   return (
     <>
@@ -43,7 +42,7 @@ function ItemPage() {
         </button>
         <button
           className="bg-orange-500 text-white p-2 mr-2"
-          onClick={() => navigate("/chat")}
+          onClick={() => navigate("/chat/" + item_id)}
         >
           Chatページ
         </button>
