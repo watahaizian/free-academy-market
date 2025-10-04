@@ -1,11 +1,14 @@
-import { Routes, Route } from "react-router-dom";
-import Layout from "./components/Layout";
-import Home from "./pages/Home";
-import Chats from "./pages/Chats";
-import Login from "./pages/Login";
+import { Routes, Route } from 'react-router-dom';
+import Layout from './components/Layout';
+import Home from './pages/Home';
+import Chats from './pages/Chats';
+import Login from './pages/Login';
 import ItemPage from "./pages/Item";
 import ChatPage from "./pages/Chat";
+import AuthCallback from './pages/AuthCallback';
+import Setup from './pages/Setup';
 import SoldItem from "./pages/SoldItem";
+
 
 function App() {
   return (
@@ -18,6 +21,8 @@ function App() {
         <Route path="chat/:item_id" element={<ChatPage />} />
         <Route path="soldItem" element={<SoldItem />} />
       </Route>
+      <Route path="/auth/callback" element={<AuthCallback />} />
+      <Route path="/setup" element={<Setup />} />
     </Routes>
   );
 }
