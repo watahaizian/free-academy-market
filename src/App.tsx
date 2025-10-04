@@ -6,6 +6,8 @@ import Login from './pages/Login';
 import Item from './pages/Item';
 import Chat from './pages/Chat';
 import SoldItem from './pages/SoldItem';
+import AuthCallback from './pages/AuthCallback';
+import Setup from './pages/Setup';
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
         <Route path="chat" element={<Chat />} />
         <Route path="soldItem" element={<SoldItem />} />
       </Route>
+      <Route path="/auth/callback" element={<AuthCallback />} />
+      <Route path="/setup" element={<Setup />} />
     </Routes>
   );
 }
