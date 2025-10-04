@@ -1,11 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useAuth } from "../hooks/useAuth";
 
 
 type Mode = "login" | "register";
 function Login() {
   const navigate = useNavigate();
+  const { user, loading: authLoading } = useAuth();
   const [mode, setMode] = useState<Mode>("login");
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
@@ -19,6 +21,13 @@ function Login() {
   const [name, setName] = useState("");
   const [schoolName, setSchoolName] = useState("");
   const [schoolGrade, setSchoolGrade] = useState<number | "">("");
+
+  // ログイン済みユーザーを自動的にホームにリダイレクト
+  useEffect(() => {
+    if (user && !authLoading) {
+      navigate("/");
+    }
+  }, [user, authLoading, navigate]);
 
   const toggleMode = () => {
     setMode((m) => (m === "login" ? "register" : "login"));
@@ -295,12 +304,22 @@ function Login() {
         </form>
       )}
 
-      <button
-        className="bg-blue-500 text-white p-2 mr-2"
-        onClick={() => navigate('/')}
-      >
-        Homeページ
-      </button>
+      <div className="mt-4 flex gap-2">
+        <button
+          className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+          onClick={() => navigate('/')}
+        >
+          Homeページ
+        </button>
+        {user && (
+          <button
+            className="bg-green-500 text-white p-2 rounded hover:bg-green-600"
+            onClick={() => navigate('/mypage')}
+          >
+            マイページ
+          </button>
+        )}
+      </div>
     </div>
   );
 }

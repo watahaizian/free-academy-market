@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import ItemPage from "./pages/Item";
 import ChatPage from "./pages/Chat";
 import SoldItem from "./pages/SoldItem";
+import MyPage from "./pages/MyPage";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="item/:item_id" element={<ItemPage />} />
         <Route path="chat/:item_id" element={<ChatPage />} />
         <Route path="soldItem" element={<SoldItem />} />
+        <Route path="mypage" element={<MyPage />} />
       </Route>
     </Routes>
   );
