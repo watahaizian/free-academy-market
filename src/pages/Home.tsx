@@ -1,6 +1,7 @@
 import { useOutletContext } from 'react-router-dom';
 import CategorySection from '../components/CategorySection';
 import type { CategoryList } from '../types/item';
+import NewItems from './newItems';
 
 type TabType = 'home' | 'newItems' | 'category';
 
@@ -71,15 +72,22 @@ export default function Home() {
             ))}
           </div>
         );
-      case 'newItems':
+      case 'newItems': {
+        const allItems = categoryList.flatMap((category: CategoryList) =>
+          category.items.map((item) => ({
+            ...item,
+            id: parseInt(`${category.id.replace(/\D/g, '')}${item.id}`), // 一意のIDを作成
+            isFavorite: false
+          }))
+        );
+
         return (
-          <div className="space-y-4">
-            <h2 className="text-xl font-bold">新着アイテム</h2>
-            {categoryList.map((category: CategoryList) => (
-              <CategorySection key={category.id} category={category} />
-            ))}
+          <div>
+            <h2 className="text-xl font-bold mb-4">新着アイテム</h2>
+            <NewItems items={allItems} />
           </div>
         );
+      }
       case 'category':
         return (
           <div className="space-y-4">
