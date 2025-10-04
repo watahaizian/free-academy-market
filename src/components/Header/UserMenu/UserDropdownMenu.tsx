@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import type { User } from '@supabase/supabase-js';
 
 interface UserDropdownMenuProps {
@@ -6,6 +7,8 @@ interface UserDropdownMenuProps {
 }
 
 export default function UserDropdownMenu({ user, onLogout }: UserDropdownMenuProps) {
+  const navigate = useNavigate();
+
   return (
     <div
       role="menu"
@@ -14,6 +17,13 @@ export default function UserDropdownMenu({ user, onLogout }: UserDropdownMenuPro
       <div className="px-2 py-1 text-sm text-gray-700 whitespace-nowrap overflow-x-auto">
         {user?.email}
       </div>
+      <button
+        role="menuitem"
+        onClick={() => navigate('/mypage')}
+        className="mt-1 block w-full text-left px-2 py-2 text-sm text-blue-600 hover:bg-gray-100 rounded"
+      >
+        マイページ
+      </button>
       <button
         role="menuitem"
         onClick={onLogout}
