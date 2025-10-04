@@ -4,11 +4,10 @@ import type { User } from '@supabase/supabase-js';
 interface UserDropdownMenuProps {
   user: User;
   onLogout: () => void;
+  setMenuOpen: (open: boolean) => void;
 }
 
 export default function UserDropdownMenu({ user, onLogout }: UserDropdownMenuProps) {
-  const navigate = useNavigate();
-
   return (
     <div
       role="menu"
@@ -26,7 +25,7 @@ export default function UserDropdownMenu({ user, onLogout }: UserDropdownMenuPro
       </button>
       <button
         role="menuitem"
-        onClick={onLogout}
+        onClick={handleLogout}
         className="mt-1 block w-full text-left px-2 py-2 text-sm text-red-600 hover:bg-gray-100 rounded"
       >
         ログアウト
