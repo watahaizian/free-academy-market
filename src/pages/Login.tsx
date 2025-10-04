@@ -11,9 +11,9 @@ function Login() {
   const [msg, setMsg] = useState<string | null>(null);
   const [err, setErr] = useState<string | null>(null);
 
-  // 共通
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
 
   const toggleMode = () => {
     setMode((m) => (m === "login" ? "register" : "login"));
@@ -28,6 +28,12 @@ function Login() {
     setErr(null);
 
     try {
+      if (password !== passwordConfirm) {
+        setErr("パスワードが一致しません。");
+        setLoading(false);
+        return;
+      }
+
       // 仮登録
       const { data, error } = await supabase.auth.signUp({
         email,
@@ -41,6 +47,8 @@ function Login() {
 
       setMsg("登録成功！確認メールを送信しました。");
       setMode("login");
+      setPassword("");
+      setPasswordConfirm("");
     } catch (e: unknown) {
       if (e instanceof Error) {
         setErr("登録エラー: " + e.message);
@@ -178,6 +186,22 @@ function Login() {
               className="w-full rounded-md border px-3 py-2"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              disabled={loading}
+            />
+          </div>
+
+          <div className="space-y-1">
+            <label htmlFor="confirm-password" className="block text-sm font-medium">
+              パスワード（確認）
+            </label>
+            <input
+              id="confirm-password"
+              type="password"
+              autoComplete="new-password"
+              required
+              className="w-full rounded-md border px-3 py-2"
+              value={passwordConfirm}
+              onChange={(e) => setPasswordConfirm(e.target.value)}
               disabled={loading}
             />
           </div>
