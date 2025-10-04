@@ -16,13 +16,13 @@ function App() {
         <Route index element={<Home />} />
         <Route path="chats" element={<Chats />} />
         <Route path="sold-items" element={<SoldItem />} />
-      </Route>
+        <Route path="/item/:item_id" element={<ItemPage />} />
+        <Route path="/chat/:item_id" element={<ChatPage />} />
+        <Route path="/mypage" element={<MyPage />} />
 
-      {/* 独立したページ */}
-      <Route path="/login" element={<Login />} />
-      <Route path="/item/:item_id" element={<ItemPage />} />
-      <Route path="/chat/:item_id" element={<ChatPage />} />
-      <Route path="/mypage" element={<MyPage />} />
+        {/* 独立したページ */}
+        <Route path="/login" element={<Login />} />
+      </Route>
     </Routes>
   );
 }
