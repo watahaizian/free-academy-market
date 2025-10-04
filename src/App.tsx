@@ -7,7 +7,6 @@ import ItemPage from "./pages/Item";
 import ChatPage from "./pages/Chat";
 import AuthCallback from './pages/AuthCallback';
 import Setup from './pages/Setup';
-import SoldItem from "./pages/SoldItem";
 import MyPage from "./pages/MyPage";
 
 
@@ -20,7 +19,6 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="item/:item_id" element={<ItemPage />} />
         <Route path="chat/:item_id" element={<ChatPage />} />
-        <Route path="soldItem" element={<SoldItem />} />
         <Route path="mypage" element={<MyPage />} />
       </Route>
       <Route path="/auth/callback" element={<AuthCallback />} />

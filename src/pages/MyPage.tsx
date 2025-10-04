@@ -8,13 +8,11 @@ export default function MyPage() {
   const { user, logout } = useAuth();
   const [edit, setEdit] = useState(false);
   const [name, setName] = useState('');
-  const [icon, setIcon] = useState('');
   const [bio, setBio] = useState('');
 
   useEffect(() => {
     if (user?.user_metadata) {
       setName(user.user_metadata.original_name || '');
-      setIcon(user.user_metadata.user_icon || '');
       setBio(user.user_metadata.bio || '');
     }
   }, [user]);
@@ -23,10 +21,10 @@ export default function MyPage() {
     await supabase.auth.updateUser({
       data: { 
         original_name: name, 
-        user_icon: icon, 
         bio: bio,
         school_name: user?.user_metadata?.school_name,
-        grade: user?.user_metadata?.grade
+        grade: user?.user_metadata?.grade,
+        user_icon: user?.user_metadata?.user_icon
       }
     });
     setEdit(false);
