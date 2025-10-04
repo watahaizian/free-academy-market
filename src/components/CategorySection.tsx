@@ -16,8 +16,8 @@ export default function CategorySection({ category }: CategorySectionProps) {
       </div>
       <div className="flex overflow-x-auto space-x-2 py-4 snap-x snap-mandatory scrollbar-hide">
         {category.items.map((item) =>
-          <div className="w-1/3 flex-shrink-0 snap-start">
-            <ItemCard key={item.id} item={item} />
+          <div key={item.id} className="w-1/3 flex-shrink-0 snap-start">
+            <ItemCard item={item} />
             <div className="mt-2">
               <h3 className="text-sm font-medium text-gray-900 truncate">{item.title}</h3>
               <p className="text-base font-black text-red-500">¥{item.price.toLocaleString()}</p>

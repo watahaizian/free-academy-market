@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import Item from './pages/Item';
 import Chat from './pages/Chat';
 import SellItems from './pages/SellItems';
+import NewItems from './pages/newItems';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="item" element={<Item />} />
         <Route path="chat" element={<Chat />} />
         <Route path="sellItems" element={<SellItems />} />
+        <Route path="newItems" element={<NewItems />} />
       </Route>
     </Routes>
   );

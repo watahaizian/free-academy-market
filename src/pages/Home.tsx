@@ -1,8 +1,18 @@
+import { useOutletContext } from 'react-router-dom';
 import CategorySection from '../components/CategorySection';
 import type { CategoryList } from '../types/item';
 
+type TabType = 'home' | 'newItems' | 'category';
+
+interface HomeContext {
+  activeTab: TabType;
+  setActiveTab: (tab: TabType) => void;
+}
+
 export default function Home() {
-   // デモ用の教科書データ
+  const { activeTab, setActiveTab } = useOutletContext<HomeContext>();
+
+  // デモ用の教科書データ
   const categoryList = [
     {id: "textitems",
      name: "教科書",
@@ -51,13 +61,47 @@ export default function Home() {
     },
   ];
 
-
+  const renderContent = () => {
+    switch (activeTab) {
+      case 'home':
+        return (
+          <div className="space-y-4">
+            {categoryList.map((category: CategoryList) => (
+              <CategorySection key={category.id} category={category} />
+            ))}
+          </div>
+        );
+      case 'newItems':
+        return (
+          <div className="space-y-4">
+            <h2 className="text-xl font-bold">新着アイテム</h2>
+            {categoryList.map((category: CategoryList) => (
+              <CategorySection key={category.id} category={category} />
+            ))}
+          </div>
+        );
+      case 'category':
+        return (
+          <div className="space-y-4">
+            <h2 className="text-xl font-bold">カテゴリ一覧</h2>
+            <div className="grid grid-cols-2 gap-4">
+              {categoryList.map((category: CategoryList) => (
+                <div key={category.id} className="p-4 bg-white rounded-lg shadow">
+                  <h3 className="font-semibold">{category.name}</h3>
+                  <p className="text-sm text-gray-600">{category.items.length}件のアイテム</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
-    <div className="space-y-4">
-      {categoryList.map((category: CategoryList) => (
-        <CategorySection key={category.id} category={category} />
-      ))}
+    <div>
+      {renderContent()}
     </div>
-  )
+  );
 }
