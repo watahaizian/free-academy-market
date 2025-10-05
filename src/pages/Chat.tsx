@@ -15,6 +15,7 @@ function ChatPage() {
   const [item, setItem] = useState<Item | null>(null);
   const [messages, setMessages] = useState<ChatHistory[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const initializeChat = async () => {
@@ -95,8 +96,8 @@ function ChatPage() {
 
         // 出品者自身かチェック
         if (itemData.user_id === user.id) {
-          alert("自分の商品にはチャットできません");
-          navigate("/");
+          setError("自分の商品にはチャットできません");
+          setLoading(false);
           return;
         }
 
@@ -112,7 +113,10 @@ function ChatPage() {
           .single();
 
         if (createError) {
-          alert("チャットルームの作成に失敗しました: " + createError.message);
+          setError(
+            "チャットルームの作成に失敗しました: " + createError.message
+          );
+          setLoading(false);
           return;
         }
 
@@ -148,6 +152,22 @@ function ChatPage() {
           onClick={() => navigate("/login")}
         >
           ログインページへ
+        </button>
+      </div>
+    );
+  }
+  // エラーがある場合
+  if (error) {
+    return (
+      <div className="p-4">
+        <div className="mb-4 p-4 bg-red-100 border border-red-400 rounded">
+          <p className="text-red-700">{error}</p>
+        </div>
+        <button
+          className="bg-blue-500 text-white p-2 rounded"
+          onClick={() => navigate("/")}
+        >
+          Homeページに戻る
         </button>
       </div>
     );
