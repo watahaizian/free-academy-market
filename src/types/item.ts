@@ -7,7 +7,8 @@ interface Item {
   created_at: string;
   updated_at: string;
   bought_at?: string;
-  item_price?: number;
+  item_price: number;
+  user_id: string;
 }
 
 export type { Item };
