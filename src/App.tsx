@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import Login from "./pages/Login";
-import ItemPage from "./pages/Item";
+import ItemPage from "./pages/ItemDetail";
 import ChatPage from "./pages/Chat";
 import Chats from "./pages/Chats";
 import SoldItem from "./pages/SoldItem";
