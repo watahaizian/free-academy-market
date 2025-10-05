@@ -4,10 +4,12 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { supabase } from "../lib/supabase";
 import RabbitButton from "../components/RabbitButton";
+import { useAuth } from "../hooks/useAuth";
 
 function ItemPage() {
   const navigate = useNavigate();
   const { item_id: itemIdParam } = useParams();
+  const { user } = useAuth();
   const [item, setItem] = useState<Item | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [isRabbitLiked, setIsRabbitLiked] = useState(false)
@@ -41,6 +43,42 @@ function ItemPage() {
     fetchItem();
   }, [itemIdParam, navigate]);
 
+  // 自分の商品かどうかの判定
+  const isMyItem = user?.id === item?.user_id;
+
+  const handleDeleteItem = async () => {
+    // 確認ダイアログ
+    const confirmed = window.confirm(
+      `「${item?.item_name}」を削除しますか？\nこの操作は取り消せません。`
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      // Supabaseから削除
+      const { error } = await supabase
+        .from("items")
+        .delete()
+        .eq("item_id", item?.item_id);
+
+      // エラーチェック
+      if (error) {
+        console.error("削除エラー:", error);
+        alert("商品の削除に失敗しました: " + error.message);
+        return;
+      }
+
+      // 成功時：ホームページに遷移
+      alert("商品を削除しました");
+      navigate("/");
+    } catch (err) {
+      console.error("予期しないエラー:", err);
+      alert("商品の削除中にエラーが発生しました");
+    }
+  };
+
   // ローディング中の表示
   if (loading) {
     return (
@@ -70,41 +108,49 @@ function ItemPage() {
   }
 
   return (
-      <>
-        <div className="w-full h-80 border border-gray-200 rounded-md">
-          <img src={item.item_img} alt={item.item_name} className="w-full h-full object-cover" />
-        </div>
-        <div className="flex flex-col gap-2 pt-3">
-          <p className="text-lg text-gray-800 font-medium">{item.item_name}</p>
-          <div className="flex flex-row justify-between">
-            <div className="flex items-center gap-1">
-              <span className="text-sm text-black">¥</span>
-              <span className="text-4xl text-black-900 font-extrabold">{item.item_price}</span>
-            </div>
-            <RabbitButton 
-              className="px-5"
-              onClick={handleRabbitClick} 
-              isActive={isRabbitLiked}
-            />
+    <>
+      <div className="w-full h-80 border border-gray-200 rounded-md">
+        <img src={item.item_img} alt={item.item_name} className="w-full h-full object-cover" />
+      </div>
+      <div className="flex flex-col gap-2 pt-3">
+        <p className="text-lg text-gray-800 font-medium">{item.item_name}</p>
+        <div className="flex flex-row justify-between">
+          <div className="flex items-center gap-1">
+            <span className="text-sm text-black">¥</span>
+            <span className="text-4xl text-black-900 font-extrabold">{item.item_price}</span>
           </div>
+          <RabbitButton 
+            className="px-5"
+            onClick={handleRabbitClick} 
+            isActive={isRabbitLiked}
+          />
         </div>
-        <div className="flex flex-col gap-2 pt-7 pb-15">
-          <h1 className="font-bold">商品情報</h1>
-          <p className="text-base">{item.item_detail}</p>
-        </div>
+      </div>
+      <div className="flex flex-col gap-2 pt-7 pb-15">
+        <h1 className="font-bold">商品情報</h1>
+        <p className="text-base">{item.item_detail}</p>
+      </div>
+      <button
+        className="bg-blue-500 text-white p-2 mr-2 border border-gray-200 rounded-md"
+        onClick={() => navigate("/")}
+      >
+        Homeページ
+      </button>
+      <button
+        className="bg-orange-500 text-white p-2 mr-2 border border-gray-200 rounded-md"
+        onClick={() => navigate("/chat/" + item.item_id)}
+      >
+        Chatページ
+      </button>
+      {isMyItem && (
         <button
-          className="bg-blue-500 text-white p-2 mr-2 border border-gray-200 rounded-md"
-          onClick={() => navigate("/")}
+          className="bg-red-500 text-white p-2 mr-2 border border-gray-200 rounded-md"
+          onClick={handleDeleteItem}
         >
-          Homeページ
+          商品を削除
         </button>
-        <button
-          className="bg-orange-500 text-white p-2 mr-2 border border-gray-200 rounded-md"
-          onClick={() => navigate("/chat/" + item.item_id)}
-        >
-          Chatページ
-        </button>
-      </>
+      )}
+    </>
   );
 }
 export default ItemPage;
