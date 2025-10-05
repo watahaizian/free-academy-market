@@ -14,7 +14,53 @@ function ChatPage() {
   const [chat, setChat] = useState<Chat | null>(null);
   const [item, setItem] = useState<Item | null>(null);
   const [messages, setMessages] = useState<ChatHistory[]>([]);
+  const [newMessage, setNewMessage] = useState<string>("");
+  const [sending, setSending] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSendMessage = async () => {
+    // バリデーション: 空メッセージ、chat未存在、user未ログイン、送信中のいずれかなら処理しない
+    if (!newMessage.trim() || !chat || !user || sending) {
+      return;
+    }
+
+    // 送信開始
+    setSending(true);
+
+    try {
+      // Supabaseにメッセージを挿入
+      const { data, error } = await supabase
+        .from("chat_histories")
+        .insert({
+          chat_id: chat.chat_id,
+          user_id: user.id,
+          chat_msg: newMessage.trim(),
+          // chat_created_atは省略（Supabaseのデフォルト値を使用）
+        })
+        .select()
+        .single();
+
+      // エラーチェック
+      if (error) {
+        alert("メッセージの送信に失敗しました: " + error.message);
+        return;
+      }
+
+      // 成功時の処理
+      // - メッセージリストに新しいメッセージを追加
+      setMessages([...messages, data]);
+      // - 入力欄をクリア
+      setNewMessage("");
+    } catch (err) {
+      // 予期しないエラー
+      console.error("送信エラー:", err);
+      alert("メッセージの送信中にエラーが発生しました");
+    } finally {
+      // 必ず送信状態を解除
+      setSending(false);
+    }
+  };
 
   useEffect(() => {
     const initializeChat = async () => {
@@ -95,8 +141,8 @@ function ChatPage() {
 
         // 出品者自身かチェック
         if (itemData.user_id === user.id) {
-          alert("自分の商品にはチャットできません");
-          navigate("/");
+          setError("自分の商品にはチャットできません");
+          setLoading(false);
           return;
         }
 
@@ -112,7 +158,10 @@ function ChatPage() {
           .single();
 
         if (createError) {
-          alert("チャットルームの作成に失敗しました: " + createError.message);
+          setError(
+            "チャットルームの作成に失敗しました: " + createError.message
+          );
+          setLoading(false);
           return;
         }
 
@@ -148,6 +197,22 @@ function ChatPage() {
           onClick={() => navigate("/login")}
         >
           ログインページへ
+        </button>
+      </div>
+    );
+  }
+  // エラーがある場合
+  if (error) {
+    return (
+      <div className="p-4">
+        <div className="mb-4 p-4 bg-red-100 border border-red-400 rounded">
+          <p className="text-red-700">{error}</p>
+        </div>
+        <button
+          className="bg-blue-500 text-white p-2 rounded"
+          onClick={() => navigate("/")}
+        >
+          Homeページに戻る
         </button>
       </div>
     );
@@ -199,6 +264,25 @@ function ChatPage() {
             ))}
           </div>
         )}
+      </div>
+
+      {/* メッセージ入力フォーム */}
+      <div className="mb-4">
+        <textarea
+          value={newMessage}
+          onChange={(e) => setNewMessage(e.target.value)}
+          placeholder="メッセージを入力..."
+          rows={3}
+          className="w-full p-2 border rounded"
+          disabled={sending}
+        />
+        <button
+          onClick={handleSendMessage}
+          disabled={sending || !newMessage.trim()}
+          className="mt-2 bg-green-500 text-white p-2 rounded disabled:bg-gray-400"
+        >
+          {sending ? "送信中..." : "送信"}
+        </button>
       </div>
 
       {/* ナビゲーションボタン */}
