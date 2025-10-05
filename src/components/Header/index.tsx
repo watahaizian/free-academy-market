@@ -1,21 +1,10 @@
-import { useState } from 'react';
 import SearchBar from './SearchBar';
-import TabNavigation from './TabNavigation';
 import UserMenu from './UserMenu';
 import { useAuth } from '../../hooks/useAuth';
-import { useNavigate } from 'react-router-dom';
 
 export default function Header() {
-  const navigate = useNavigate();
-  const { user, login, logout } = useAuth();
-  const [activeTab, setActiveTab] = useState<'home' | 'new' | 'category'>('home');
 
-  const handleTabChange = (tab: 'home' | 'new' | 'category') => {
-    setActiveTab(tab);
-    if (tab === 'home') {
-      navigate('/');
-    }
-  };
+  const { user, login, logout } = useAuth();
 
   return (
     <header className="sticky top-0 bg-white shadow-sm z-10">
@@ -23,7 +12,6 @@ export default function Header() {
         <UserMenu user={user} onLogin={login} onLogout={logout} />
         <SearchBar />
       </div>
-      <TabNavigation activeTab={activeTab} onTabChange={handleTabChange} />
     </header>
   );
 }
