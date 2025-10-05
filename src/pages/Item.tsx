@@ -3,10 +3,12 @@ import type { Item } from "../types/item";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { supabase } from "../lib/supabase";
+import { useAuth } from "../hooks/useAuth";
 
 function ItemPage() {
   const navigate = useNavigate();
   const { item_id: itemIdParam } = useParams();
+  const { user } = useAuth();
   const [item, setItem] = useState<Item | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -38,6 +40,42 @@ function ItemPage() {
     };
     fetchItem();
   }, [itemIdParam, navigate]);
+
+  // 自分の商品かどうかの判定
+  const isMyItem = user?.id === item?.user_id;
+
+  const handleDeleteItem = async () => {
+    // 確認ダイアログ
+    const confirmed = window.confirm(
+      `「${item?.item_name}」を削除しますか？\nこの操作は取り消せません。`
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      // Supabaseから削除
+      const { error } = await supabase
+        .from("items")
+        .delete()
+        .eq("item_id", item?.item_id);
+
+      // エラーチェック
+      if (error) {
+        console.error("削除エラー:", error);
+        alert("商品の削除に失敗しました: " + error.message);
+        return;
+      }
+
+      // 成功時：ホームページに遷移
+      alert("商品を削除しました");
+      navigate("/");
+    } catch (err) {
+      console.error("予期しないエラー:", err);
+      alert("商品の削除中にエラーが発生しました");
+    }
+  };
 
   // ローディング中の表示
   if (loading) {
@@ -86,6 +124,14 @@ function ItemPage() {
         >
           Chatページ
         </button>
+        {isMyItem && (
+          <button
+            className="bg-red-500 text-white p-2 mr-2"
+            onClick={handleDeleteItem}
+          >
+            商品を削除
+          </button>
+        )}
       </div>
     </>
   );
